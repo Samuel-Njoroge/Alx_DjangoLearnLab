@@ -7,8 +7,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-
+from django.contrib.auth import login
 
 # User Registration
 class RegisterView(FormView):
