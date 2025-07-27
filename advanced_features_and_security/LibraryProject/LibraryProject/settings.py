@@ -43,6 +43,9 @@ X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Stop browsers from MIME-sniffing
 SECURE_BROWSER_XSS_FILTER = True  # Enable basic XSS protection
 
+# Support secure requests when behind a proxy (like Nginx or Heroku)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Application definition
 
 INSTALLED_APPS = [
