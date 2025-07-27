@@ -30,6 +30,19 @@ CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
 CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
 CSP_SCRIPT_SRC = ("'self'",)
 
+# Redirect all non-HTTPS requests to HTTPS
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS automatically
+
+# HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Security headers
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Stop browsers from MIME-sniffing
+SECURE_BROWSER_XSS_FILTER = True  # Enable basic XSS protection
+
 # Application definition
 
 INSTALLED_APPS = [
