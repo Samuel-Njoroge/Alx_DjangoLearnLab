@@ -20,3 +20,7 @@ class CustomUserAdmin(UserAdmin):
         ('Extra Info', {'fields': ('date_of_birth', 'profile_photo')}),
     )
     list_display = ('username', 'email', 'date_of_birth', 'is_staff')
+
+
+# Register the custom user model and its admin
+admin.site.register(CustomUser, CustomUserAdmin)
