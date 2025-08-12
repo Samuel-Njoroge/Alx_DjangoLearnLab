@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Book, Author
 from .serializers import BookSerializer, AuthorSerializer
 from rest_framework import viewsets, generics, permissions
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 # Author
 class AuthorViewSet(viewsets.ModelViewSet):
