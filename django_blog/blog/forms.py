@@ -15,11 +15,11 @@ class CustomUserCreationForm(UserCreationForm):
 
 # Post 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(required=False, help_text="Comma-separated tags")
     class Meta:
         model = Post
-        fields = ['title', 'content']
-
-
+        fields = ['title', 'content', 'tags']
+        
         def clean_title(self):
             title = self.cleaned_data.get('title', '').strip()
             if not title:

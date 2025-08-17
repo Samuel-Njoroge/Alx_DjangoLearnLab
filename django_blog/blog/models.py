@@ -2,12 +2,22 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+# Tag
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+        
 # Post
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     published_date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post")
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name="post")
 
 
     def __str__(self):
@@ -30,3 +40,4 @@ class Comment(models.Model):
     
     def get_absolute_url(self):
         return reverse("post-detail", kwargs={"pk": self.post.pk})
+    
