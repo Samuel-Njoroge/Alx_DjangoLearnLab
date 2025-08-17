@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 # Tag
 class Tag(models.Model):
@@ -17,7 +18,7 @@ class Post(models.Model):
     content = models.TextField()
     published_date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post")
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name="post")
+    tag = TaggableManager()
 
 
     def __str__(self):
