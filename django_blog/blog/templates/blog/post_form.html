@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+{% block title %}
+  {% if view.action == "create" %}Create Post{% else %}Edit Post{% endif %}
+{% endblock %}
+{% block content %}
+<h2>
+  {% if view.action == "create" %}Create New Post{% else %}Edit Post{% endif %}
+</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% if view.action == "create" %}Create{% else %}Save changes{% endif %}</button>
+</form>
+
+<p><a href="{% url 'posts' %}">Cancel</a></p>
+{% endblock %}

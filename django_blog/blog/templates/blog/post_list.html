@@ -1,0 +1,37 @@
+{% extends "blog/base.html" %}
+{% block title %}All Posts{% endblock %}
+{% block content %}
+<h2>All Posts</h2>
+
+{% if user.is_authenticated %}
+  <p><a href="{% url 'post-create' %}">Create New Post</a></p>
+{% else %}
+  <p><a href="{% url 'login' %}?next={% url 'post-create' %}">Login to create a post</a></p>
+{% endif %}
+
+{% if posts %}
+  <ul class="post-list">
+    {% for post in posts %}
+      <li>
+        <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
+        <p>{{ post.content|truncatewords:40 }}</p>
+        <small>By {{ post.author.username }} · {{ post.published_date|date:"M d, Y" }}</small>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+      {% endif %}
+    </div>
+  {% endif %}
+{% else %}
+  <p>No posts yet.</p>
+{% endif %}
+{% endblock %}
