@@ -5,13 +5,14 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer, RegisterSerializer
+from .models import CustomUser
 
 
 User = get_user_model()
 
 # Register view.
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
+class RegisterView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
     serializer_class = RegisterSerializer
 
     def create(self, request, *args, **kwargs):
