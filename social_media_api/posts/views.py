@@ -1,9 +1,11 @@
 from rest_framework import generics, viewsets, permissions, filters, status
 from .models import Post, Comment, Like
 from rest_framework.response import Response
-from .serializers import PostSerializer, CommentSerializer, LikeSerializer
+from .serializers import PostSerializer, CommentSerializer
 from rest_framework.views import APIView
 from notifications.utils import create_notification
+from notifications.models import Notification
+from django.contrib.contenttypes.models import ContentType
 
 # 
 class IsOwnerReadOnly(permissions.BasePermission):
@@ -57,7 +59,14 @@ class LikePostView(APIView):
 
         # Create notification for post author
         if post.author != request.user:
-            create_notification(recipient=post.author, actor=request.user, verb="liked", target=post)
+              Notification.objects.create(
+                recipient=post.author,
+                actor=request.user,
+                verb="liked",
+                target=post,
+                target_content_type=ContentType.objects.get_for_model(post),
+                target_object_id=post.id,
+            )
 
         return Response({"message": "Post liked"}, status=status.HTTP_201_CREATED)
 
