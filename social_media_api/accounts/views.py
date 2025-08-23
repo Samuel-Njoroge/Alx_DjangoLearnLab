@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
@@ -39,3 +39,31 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+    
+# Follow
+class FollowUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"error: User not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        request.user.follow(target_user)
+        return Response({"message": f"You are now following {target_user.username}"}, status=status.HTTP_200_OK)
+    
+# Unfollow
+class UnfollowUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        request.user.unfollow(target_user)
+        return Response({"message": f"You have unfollowed {target_user.username}"}, status=status.HTTP_200_OK)
+
+
